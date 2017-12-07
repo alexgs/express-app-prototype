@@ -1,0 +1,12 @@
+dist/
+
+# Config files
+config/*.json
+!config/config-template.json
+
+# Logs
+logs/
+*.log
+
+# Debug log from npm
+npm-debug.log

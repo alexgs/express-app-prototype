@@ -1,0 +1,8 @@
+{
+    "data": {
+        "DEBUG": "Value for the `DEBUG` environment variable; see https://www.npmjs.com/package/debug",
+        "NODE_ENV": "",
+        "PROTOTYPE_PORT": 5426
+    },
+    "digest": { }
+}
