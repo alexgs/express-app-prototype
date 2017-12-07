@@ -1,0 +1,26 @@
+{
+  "name": "express-app-prototype",
+  "version": "0.1.0",
+  "description": "A prototype for building Express apps",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel lib -d dist",
+    "start": "node ./scripts/spawn nodemon ./scripts/launch-dev-server.js --exec babel-node",
+    "test": "node ./scripts/spawn mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philgs/express-app-prototype.git"
+  },
+  "author": {
+    "name": "Phil Gates-Shannon",
+    "email": "phil.gs@gmail.com",
+    "url": "http://philgs.me"
+  },
+  "license": "BSD-3-Clause",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/philgs/express-app-prototype/issues"
+  },
+  "homepage": "https://github.com/philgs/express-app-prototype#readme"
+}
