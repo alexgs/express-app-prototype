@@ -1,5 +1,6 @@
 {
     "data": {
+        "AUTH0_CLIENT_SECRET": "Auth0 client secret, from the Auth0 dashboard",
         "DEBUG": "Value for the `DEBUG` environment variable; see https://www.npmjs.com/package/debug",
         "NODE_ENV": "",
         "PROTOTYPE_PORT": 5426

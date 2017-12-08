@@ -1,13 +1,11 @@
+import login from '../login/routes';
 import root from './root';
-// import system from './system';
 
 const routes = {
-    root
-    // , system
+    root, login
 };
 
 export default routes;
 export {
-    root
-    // , system
+    root, login
 };
