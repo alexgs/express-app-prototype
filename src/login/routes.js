@@ -1,15 +1,20 @@
+import { ensureAuthenticated } from 'connect-ensure-login';
 import express from 'express';
 import passport from 'passport';
 
+const PARENT_ROUTE = '/login';
+const AUTHENTICATION_PATH = '/login/';
+const checkAuth = ensureAuthenticated( AUTHENTICATION_PATH );
 const router = express.Router();
 
 const auth0 = {
-    domain: 'ickyzoo.auth0.com',
-    clientID: 'JoVzWhQOwQwIkialwg6uY5GfOAhfdI_A',
-    callbackURL: 'http://calypso.sword:5426/login/auth-complete'
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    callbackURL: process.env.AUTH0_CALLBACK_URL
 };
 
 // Handle login
+// noinspection JSUnresolvedFunction
 router.get(
     '/',
     passport.authenticate( 'auth0', {
@@ -18,7 +23,7 @@ router.get(
         redirectUri: auth0.callbackURL,
         audience: `https://${auth0.domain}/userinfo`,
         responseType: 'code',
-        scope: 'openid'
+        scope: 'openid email'
     } ),
     ( request, response ) => {
         response.redirect( '/' );
@@ -26,19 +31,30 @@ router.get(
 );
 
 // Perform session logout and redirect to homepage
-router.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-});
+// TODO Get this to work fully, so that no cookies are set
+router.get(
+    '/logout',
+    ( request, response ) => {
+        request.logout();
+        response.redirect( '/' );
+    }
+);
 
-// Perform the final stage of authentication and redirect to '/user'
+// Perform the final stage of authentication and redirect
 router.get(
     '/auth-complete',
-    passport.authenticate('auth0', {
-        failureRedirect: '/'
-    }),
-    function(req, res) {
-        res.redirect(req.session.returnTo || '/user');
+    passport.authenticate( 'auth0', { failureRedirect: '/' } ),
+    ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/auth-details` )
+);
+
+router.get(
+    '/auth-details',
+    checkAuth,
+    ( request, response, next ) => {
+        response.render( 'auth-details', {
+            user: request.user,
+            userProfile: JSON.stringify( request.user, null, 4 )
+        } );
     }
 );
 

@@ -1,9 +1,12 @@
 {
     "data": {
-        "AUTH0_CLIENT_SECRET": "Auth0 client secret, from the Auth0 dashboard",
+        "AUTH0_CALLBACK_URL": "Auth0 callback URL for this app, must be authorized on the Auth0 dashboard",
+        "AUTH0_CLIENT_ID": "Auth0 client ID for this app, from the Auth0 dashboard",
+        "AUTH0_CLIENT_SECRET": "Auth0 client secret for this app, from the Auth0 dashboard",
+        "AUTH0_DOMAIN": "Auth0 domain for this app, from the Auth0 dashboard",
         "DEBUG": "Value for the `DEBUG` environment variable; see https://www.npmjs.com/package/debug",
-        "NODE_ENV": "",
-        "PROTOTYPE_PORT": 5426
+        "NODE_ENV": "development",
+        "PROTOTYPE_PORT": 8080
     },
     "digest": { }
 }
