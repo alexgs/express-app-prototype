@@ -30,7 +30,13 @@ const strategy = new Auth0Strategy(
     },
     ( accessToken, refreshToken, extraParams, profile, done ) => {
         // TODO Make use of OAuth2 data (https://github.com/auth0-samples/auth0-nodejs-webapp-sample/blob/master/02-User-Profile/app.js#L29)
-        return done( null, profile );
+        // return done( null, profile );
+
+        const userData = {
+            idToken: extraParams.id_token,
+            profile: profile
+        };
+        return done( null, userData );
     }
 );
 // noinspection JSCheckFunctionSignatures
