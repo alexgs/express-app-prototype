@@ -1,8 +1,10 @@
 dist/
 
 # Config files
+config/*.crt
 config/*.json
 !config/config-template.json
+config/*.key
 
 # Logs
 logs/
