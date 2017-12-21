@@ -46,7 +46,7 @@ router.get(
 // Perform the final stage of authentication and redirect
 router.get(
     '/auth-complete',
-    passport.authenticate( 'auth0', { failureRedirect: '/' } ),
+    passport.authenticate( 'auth0', { failureRedirect: '/?login-failed=true' } ),
     ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/auth-details` )
 );
 
