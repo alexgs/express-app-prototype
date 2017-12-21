@@ -1,12 +1,16 @@
 import { ensureAuthenticated } from 'connect-ensure-login';
 import express from 'express';
+import fs from 'fs';
+import jwt from 'jsonwebtoken';
 import passport from 'passport';
+import path from 'path';
 
 const PARENT_ROUTE = '/login';
 const AUTHENTICATION_PATH = '/login/';
 const checkAuth = ensureAuthenticated( AUTHENTICATION_PATH );
 const router = express.Router();
 
+const auth0PublicKey = fs.readFileSync( path.resolve( __dirname, '../../config/ickyzoo-auth0-com.pem' ) );
 const auth0 = {
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,
@@ -51,9 +55,13 @@ router.get(
     '/auth-details',
     checkAuth,
     ( request, response, next ) => {
-        response.render( 'auth-details', {
-            user: request.user,
-            userProfile: JSON.stringify( request.user, null, 4 )
+        jwt.verify( request.user.idToken, auth0PublicKey, ( error, token ) => {
+            response.render( 'auth-details', {
+                token: JSON.stringify( token, null, 4 ),
+                user: request.user,
+                userProfile: JSON.stringify( request.user, null, 4 )
+            } );
+
         } );
     }
 );
