@@ -7,6 +7,7 @@ import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
 import path from 'path';
 
+import { auth0Verify } from './login/utils';
 import routes from './routes';
 
 const app = express();
@@ -28,22 +29,14 @@ const strategy = new Auth0Strategy(
         clientSecret: process.env.AUTH0_CLIENT_SECRET,
         callbackURL: process.env.AUTH0_CALLBACK_URL
     },
-    ( accessToken, refreshToken, extraParams, profile, done ) => {
-        // TODO Make use of OAuth2 data (https://github.com/auth0-samples/auth0-nodejs-webapp-sample/blob/master/02-User-Profile/app.js#L29)
-        // return done( null, profile );
-
-        const userData = {
-            idToken: extraParams.id_token,
-            profile: profile
-        };
-        return done( null, userData );
-    }
+    auth0Verify
 );
 // noinspection JSCheckFunctionSignatures
 passport.use( strategy );
 
 // Write session data to a cookie
 passport.serializeUser( ( user, done ) => {
+    // TODO Control serialization and cookie
     done(null, user);
 } );
 
