@@ -1,9 +1,6 @@
 import { ensureAuthenticated } from 'connect-ensure-login';
 import express from 'express';
-import fs from 'fs';
-import jwt from 'jsonwebtoken';
 import passport from 'passport';
-import path from 'path';
 
 const PARENT_ROUTE = '/login';
 const AUTHENTICATION_PATH = '/login/';
