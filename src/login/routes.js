@@ -46,7 +46,10 @@ router.get(
 // Perform the final stage of authentication and redirect
 router.get(
     '/auth-complete',
-    passport.authenticate( 'auth0', { failureRedirect: '/?login-failed=true' } ),
+    passport.authenticate( 'auth0', {
+        failureFlash: true,
+        failureRedirect: `${PARENT_ROUTE}/login-failed`
+    } ),
     ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/auth-details` )
 );
 
@@ -57,6 +60,15 @@ router.get(
         response.render( 'auth-details', {
             userObject: JSON.stringify( request.user, null, 4 )
         } );
+    }
+);
+
+router.get(
+    '/login-failed',
+    ( request, response ) => {
+        response.render( 'login-failed', {
+            flash: request.flash('error')
+        } )
     }
 );
 

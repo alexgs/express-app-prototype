@@ -29,10 +29,8 @@ export function auth0Verify( accessToken, refreshToken, extraParams, profile, do
 }
 
 function validateJwtClaims( idToken ) {
-    // TODO >> Why is this failing?! Find a way to display error messages... <<
-
     // The current date/time must be before the expiration date/time listed in the `exp` claim
-    if ( Date.now() > idToken.exp ) {
+    if ( Date.now() < idToken.exp ) {
         throw errorFactory( 'The ID token has expired.', ERROR_SOURCE.JWT.CLAIMS );
     }
 

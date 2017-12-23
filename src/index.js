@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import flash from 'connect-flash';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import session from 'express-session';
@@ -68,6 +69,7 @@ app.use( session( {
 } ) );
 app.use( passport.initialize() );
 app.use( passport.session() );
+app.use( flash() );
 app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 
 
