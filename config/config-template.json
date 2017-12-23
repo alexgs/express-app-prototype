@@ -6,7 +6,8 @@
         "AUTH0_DOMAIN": "Auth0 domain for this app, from the Auth0 dashboard",
         "DEBUG": "Value for the `DEBUG` environment variable; see https://www.npmjs.com/package/debug",
         "NODE_ENV": "development",
-        "PROTOTYPE_PORT": 8080
+        "PROTOTYPE_PORT": 8080,
+        "SSL_CERT": "Absolute path to the server.crt file"
     },
     "digest": { }
 }
