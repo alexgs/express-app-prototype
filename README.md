@@ -50,6 +50,12 @@ You can access an interactive console on the Docker container with the following
 
 - `docker exec -it db sh`
 
+### Session Secret
+
+I use the following command to generate a session "secret" for signing the session cookies ([source][7]): `openssl rand -base64 -out config\session.key 1024`
+
+[7]: https://raymii.org/s/tutorials/Encrypt_and_decrypt_files_to_public_keys_via_the_OpenSSL_Command_Line.html
+
 ## License
 
 The content of this repository is licensed under the [3-Clause BSD license][1]. Please see the [enclosed license file][2] for specific terms.
