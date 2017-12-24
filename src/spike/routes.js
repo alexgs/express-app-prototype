@@ -29,7 +29,8 @@ router.get(
     ( request, response ) => {
         request.session.user = null;
         delete request.session.user;
-        response.redirect( `${PARENT_ROUTE}/` );
+        response.clearCookie( 'session-id' );
+        request.session.destroy( () => response.redirect( `${PARENT_ROUTE}/` ) );
     }
 );
 

@@ -5,6 +5,7 @@ import express from 'express';
 import session from 'express-session';
 import fs from 'fs';
 import logger from 'morgan';
+import ms from 'ms';
 import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
 import path from 'path';
@@ -68,7 +69,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 const sessionOptions = {
     cookie: {
         httpOnly: true,
-        maxAge: 90 * 24 * 60 * 60 * 1000,        // 90 days in milliseconds
+        maxAge: ms( '90d' ),
         sameSite: true,
         secure: true
     },
