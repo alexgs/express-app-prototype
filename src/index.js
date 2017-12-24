@@ -99,6 +99,7 @@ app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 
 app.use( '/', routes.root );
 app.use( '/login', routes.login );
+app.use( '/spike', routes.spike );
 
 
 // --- ERROR HANDLERS ---
