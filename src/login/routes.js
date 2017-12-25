@@ -1,10 +1,18 @@
 import { ensureAuthenticated } from 'connect-ensure-login';
+import flash from 'connect-flash'
 import express from 'express';
 import passport from 'passport';
 
 const PARENT_ROUTE = '/login';
 const AUTHENTICATION_PATH = '/login/';
-const checkAuth = ensureAuthenticated( AUTHENTICATION_PATH );
+// const checkAuth = ensureAuthenticated( AUTHENTICATION_PATH );
+const checkAuth = function( request, response, next ) {
+    if ( !request.session.user ) {
+        flash('No session user object');
+        response.redirect( `${PARENT_ROUTE}/login-failed` );
+    }
+    return next();
+};
 const router = express.Router();
 
 const auth0 = {
@@ -41,21 +49,54 @@ router.get(
 );
 
 // Perform the final stage of authentication and redirect
+// router.get(
+//     '/auth-complete',
+//     passport.authenticate( 'auth0', {
+//         failureFlash: true,
+//         failureRedirect: `${PARENT_ROUTE}/login-failed`,
+//         session: false
+//     } ),
+//     ( request, response ) => {
+//         return response.redirect( request.session.returnTo || `${PARENT_ROUTE}/auth-details` )
+//     }
+// );
+
 router.get(
     '/auth-complete',
-    passport.authenticate( 'auth0', {
-        failureFlash: true,
-        failureRedirect: `${PARENT_ROUTE}/login-failed`
-    } ),
-    ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/auth-details` )
+    ( request, response, next ) => {
+        passport.authenticate( 'auth0',
+            {
+                failureFlash: true,
+                failureRedirect: `${PARENT_ROUTE}/login-failed`,
+                session: false
+            },
+            ( error, user, info ) => {
+                if ( error ) {
+                    next( error );
+                }
+
+                if ( !user ) {
+                    response.redirect( '/login' );
+                }
+
+                console.log( '>>> USER <<< ' + JSON.stringify( user, null, 4 ) );
+                request.session.user = user;
+                request.session.save( error => {
+                    response.redirect( request.session.returnTo || `${PARENT_ROUTE}/auth-details` );
+                } );
+            }
+        )( request, response, next );     // `authenticate` returns a middleware function, which we have to invoke
+    }
 );
 
 router.get(
     '/auth-details',
-    checkAuth,
+    // checkAuth,
+    // TODO Try a custom middleware that reloads the page until the cookie is loaded (or some count is exceeded)
     ( request, response, next ) => {
         response.render( 'auth-details', {
-            userObject: JSON.stringify( request.user, null, 4 )
+            // info: JSON.stringify( request.session.info, null, 4 ),
+            userObject: JSON.stringify( request.session.user, null, 4 )
         } );
     }
 );

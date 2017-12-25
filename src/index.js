@@ -91,7 +91,7 @@ app.use( bodyParser.urlencoded( { extended: false } ) );
 //     saveUninitialized: true
 // } ) );
 app.use( session( sessionOptions ) );
-// app.use( passport.initialize() );
+app.use( passport.initialize() );
 // app.use( passport.session() );
 app.use( flash() );
 app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
