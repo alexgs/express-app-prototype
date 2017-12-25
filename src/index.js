@@ -10,7 +10,7 @@ import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
 import path from 'path';
 
-import { auth0Verify } from './login/utils';
+import * as login from './login/utils';
 import routes from './routes';
 
 const app = express();
@@ -32,7 +32,7 @@ const strategy = new Auth0Strategy(
         clientSecret: process.env.AUTH0_CLIENT_SECRET,
         callbackURL: process.env.AUTH0_CALLBACK_URL
     },
-    auth0Verify
+    login.verifyAuth0IdToken
 );
 // noinspection JSCheckFunctionSignatures
 passport.use( strategy );
@@ -73,26 +73,27 @@ const sessionOptions = {
         sameSite: true,
         secure: true
     },
-    name: 'session-id',
+    genid: login.generateSessionId,
+    name: login.getSessionCookieName(),
     resave: false,
     saveUninitialized: false,
-    secret: fs.readFileSync( process.env.SESSION_SECRET, 'utf8' ),
+    secret: login.getSessionKey(),
     unset: 'destroy'
 };
 
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: false } ) );
-app.use( cookieParser() );
+// app.use( cookieParser() );
 // TODO Secure session with options and `libsodium`
 // app.use( session( {
 //     secret: 'asdf09987',
 //     resave: true,
 //     saveUninitialized: true
 // } ) );
-// app.use( session( sessionOptions ) );
+app.use( session( sessionOptions ) );
 // app.use( passport.initialize() );
 // app.use( passport.session() );
-// app.use( flash() );
+app.use( flash() );
 app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 
 

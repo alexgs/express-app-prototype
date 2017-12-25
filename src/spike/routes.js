@@ -1,8 +1,10 @@
 import express from 'express';
-import ms from 'ms';
+import * as login from '../login/utils';
 
 const PARENT_ROUTE = '/spike';
 const router = express.Router();
+
+// TODO Once the JWT is verified, how I do set my own session cookie?
 
 router.get(
     '/',
@@ -17,16 +19,10 @@ router.get(
 router.get(
     '/login',
     ( request, response ) => {
-        response.cookie( 'user', JSON.stringify( {
+        request.session.user = {
             id: '99',
             name: 'super cool guy'
-        } ), {
-            encode: string => string,
-            httpOnly: true,
-            maxAge: ms( '90d' ),
-            sameSite: true,
-            secure: true
-        } );
+        };
         response.redirect( `${PARENT_ROUTE}/` );
     }
 );
@@ -34,12 +30,10 @@ router.get(
 router.get(
     '/logout',
     ( request, response ) => {
-        // request.session.user = null;
-        // delete request.session.user;
-        // response.clearCookie( 'session-id' );
-        // request.session.destroy( () => response.redirect( `${PARENT_ROUTE}/` ) );
-        response.clearCookie( 'user' );
-        response.redirect( `${PARENT_ROUTE}/` );
+        request.session.user = null;
+        delete request.session.user;
+        response.clearCookie( login.getSessionCookieName() );
+        request.session.destroy( () => response.redirect( `${PARENT_ROUTE}/` ) );
     }
 );
 

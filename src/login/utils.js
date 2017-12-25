@@ -1,12 +1,26 @@
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import path from 'path';
+import uuid from 'uuid';
 import { ERROR_SOURCE } from '../constants';
 import { errorFactory } from '../utils';
 
 const auth0PublicKey = fs.readFileSync( path.resolve( __dirname, '../../config/ickyzoo-auth0-com.pem' ) );
 
-export function auth0Verify( accessToken, refreshToken, extraParams, profile, done ) {
+export function generateSessionId( request ) {
+    return uuid.v4();
+}
+
+export function getSessionCookieName() {
+    return 'sid';
+}
+
+export function getSessionKey() {
+    const rawData = fs.readFileSync( process.env.SESSION_SECRET, 'utf8' );
+    return rawData.split('\n').join('');
+}
+
+export function verifyAuth0IdToken( accessToken, refreshToken, extraParams, profile, done ) {
     return verifyJwtSignature( extraParams.id_token, auth0PublicKey )
         .then( idToken => validateJwtClaims( idToken ) )
         .then( idToken => {
