@@ -10,6 +10,8 @@ import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
 import path from 'path';
 
+import GladosFactory from '@philgs/glados';
+
 import * as login from './login/utils';
 import routes from './routes';
 
@@ -21,6 +23,16 @@ const appRoot = path.resolve( __dirname, '..' );
 
 app.set( 'views', path.resolve( appRoot, 'views' ) );
 app.set( 'view engine', 'ejs' );
+
+
+// --- CONFIGURE GLADOS ---
+const gladosOptions = {
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackUrl: process.env.AUTH0_CALLBACK_URL
+};
+GladosFactory.initialize( gladosOptions, app );
 
 
 // --- CONFIGURE PASSPORT TO USE AUTH0 ---
@@ -101,6 +113,7 @@ app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 
 app.use( '/', routes.root );
 app.use( '/login', routes.login );
+app.use( '/glados', routes.glados );
 app.use( '/spike', routes.spike );
 
 
