@@ -95,15 +95,15 @@ const sessionOptions = {
 
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: false } ) );
-// app.use( cookieParser() );
+app.use( cookieParser() );
 // TODO Secure session with options and `libsodium`
 // app.use( session( {
 //     secret: 'asdf09987',
 //     resave: true,
 //     saveUninitialized: true
 // } ) );
-app.use( session( sessionOptions ) );
-app.use( passport.initialize() );
+// app.use( session( sessionOptions ) );
+// app.use( passport.initialize() );
 // app.use( passport.session() );
 app.use( flash() );
 app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );

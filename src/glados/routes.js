@@ -1,6 +1,9 @@
 import express from 'express';
+import fs from 'fs';
 import GladosFactory from '@philgs/glados';
+import path from 'path';
 
+const auth0PublicKey = fs.readFileSync( path.resolve( __dirname, '../../config/ickyzoo-auth0-com.pem' ) );
 const PARENT_ROUTE = '/glados';
 const glados = GladosFactory.create();
 const router = express.Router();
@@ -13,7 +16,7 @@ router.get(
 
 router.get(
     '/callback',
-    glados.completeOAuth2(),
+    glados.completeOAuth2( auth0PublicKey ),
     ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/user` )
 );
 
@@ -21,7 +24,7 @@ router.get(
     '/user',
     // glados.ensureAuthenticated(),
     ( request, response ) => response.render( 'user-details.ejs', {
-        userObject: JSON.stringify( request.session.user, null, 4 )
+        userObject: JSON.stringify( request.cookies.glados, null, 4 )
     } )
 );
 
