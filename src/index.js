@@ -10,7 +10,7 @@ import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
 import path from 'path';
 
-import GladosFactory from '@philgs/glados';
+import glados from '@philgs/glados';
 
 import * as login from './login/utils';
 import routes from './routes';
@@ -32,7 +32,7 @@ const gladosOptions = {
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
     callbackUrl: process.env.AUTH0_CALLBACK_URL
 };
-GladosFactory.initialize( gladosOptions, app );
+glados.configureOAuth2( gladosOptions, app );
 
 
 // --- CONFIGURE PASSPORT TO USE AUTH0 ---
