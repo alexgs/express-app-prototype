@@ -26,6 +26,7 @@ app.set( 'view engine', 'ejs' );
 
 
 // --- CONFIGURE GLADOS ---
+
 const gladosOptions = {
     domain: process.env.AUTH0_DOMAIN,
     clientId: process.env.AUTH0_CLIENT_ID,
@@ -33,6 +34,7 @@ const gladosOptions = {
     callbackUrl: process.env.AUTH0_CALLBACK_URL
 };
 glados.configureOAuth2( gladosOptions, app );
+glados.configureSessionStore( app.locals );
 
 
 // --- CONFIGURE PASSPORT TO USE AUTH0 ---
@@ -105,6 +107,7 @@ app.use( cookieParser() );
 // app.use( session( sessionOptions ) );
 // app.use( passport.initialize() );
 // app.use( passport.session() );
+app.use( glados.getSessionMiddleware() );
 app.use( flash() );
 app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 

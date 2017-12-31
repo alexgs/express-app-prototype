@@ -5,6 +5,7 @@ import path from 'path';
 
 const auth0PublicKey = fs.readFileSync( path.resolve( __dirname, '../../config/ickyzoo-auth0-com.pem' ) );
 const PARENT_ROUTE = '/glados';
+const requireAuthentication = glados.getRequireAuthMiddleware( `${PARENT_ROUTE}/login` );
 const router = express.Router();
 
 router.get(
@@ -16,15 +17,16 @@ router.get(
 router.get(
     '/callback',
     glados.completeOAuth2( auth0PublicKey ),
-    // ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/user` )
-    ( request, response ) => response.redirect( `${PARENT_ROUTE}/user` )
+    ( request, response ) => response.redirect( request.session.returnTo || `${PARENT_ROUTE}/user` )
+    // ( request, response ) => response.redirect( `${PARENT_ROUTE}/user` )
 );
 
 router.get(
     '/user',
-    // glados.ensureAuthenticated(),
+    requireAuthentication,
     ( request, response ) => response.render( 'user-details.ejs', {
-        userObject: JSON.stringify( request.cookies.glados, null, 4 )
+        cookie: JSON.stringify( request.cookies.glados, null, 4 ),
+        requestUser: JSON.stringify( request.user, null, 4 )
     } )
 );
 
