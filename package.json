@@ -10,6 +10,22 @@
     "couchbase:start": "docker start db",
     "couchbase:stop": "docker stop db"
   },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "stage-3"
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/philgs/express-app-prototype.git"
@@ -26,14 +42,12 @@
   },
   "homepage": "https://github.com/philgs/express-app-prototype#readme",
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
     "debug": "^3.1.0",
     "dolza": "^0.2.0",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
-    "mongodb": "^3.0.0-rc0",
     "morgan": "^1.9.0"
   },
   "devDependencies": {
@@ -41,10 +55,8 @@
     "@types/chai": "^4.0.1",
     "@types/mocha": "^2.2.41",
     "babel-cli": "^6.24.1",
-    "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-plugin-transform-exponentiation-operator": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.24.1",
     "chai": "^4.1.0",
