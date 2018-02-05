@@ -2,7 +2,7 @@
     "data": {
         "DEBUG": "Value for the `DEBUG` environment variable; see https://www.npmjs.com/package/debug",
         "NODE_ENV": "",
-        "PROTOTYPE_PORT": 5426,
+        "PROTOTYPE_PORT": 8080,
         "SSL_CERT": "Absolute path to the server's CRT file"
     },
     "digest": { }
