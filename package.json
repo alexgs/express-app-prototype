@@ -2,10 +2,10 @@
   "name": "express-app-prototype",
   "version": "0.1.0",
   "description": "A prototype for building Express apps",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node ./scripts/spawn nodemon ./scripts/launch-dev-server.js --exec babel-node",
-    "test": "node ./scripts/spawn mocha",
+    "start": "spawn nodemon ./scripts/launch-dev-server.js --exec babel-node",
+    "test": "spawn mocha",
     "build": "babel src -d dist",
     "couchbase:start": "docker start db",
     "couchbase:stop": "docker stop db"
@@ -37,6 +37,7 @@
     "morgan": "^1.9.0"
   },
   "devDependencies": {
+    "@philgs/spawn": "^1.0.0",
     "@types/chai": "^4.0.1",
     "@types/mocha": "^2.2.41",
     "babel-cli": "^6.24.1",
