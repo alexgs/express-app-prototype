@@ -15,11 +15,17 @@ app.use( morgan( 'dev' ) );
 const port = normalizePort( process.env[ 'PROTOTYPE_PORT' ] );
 app.set( 'port', port );
 
-// Create HTTPS server.
-const configPath = path.resolve( __dirname, '../config' );
+// Create HTTPS server
+const sslCertPath = process.env.SSL_CERT;
+const sslPathInfo = path.parse( sslCertPath );
+const sslKeyPath = path.format( {
+    dir: sslPathInfo.dir,
+    name: sslPathInfo.name,
+    ext: '.key'
+} );
 const options = {
-    cert: fs.readFileSync( path.resolve( configPath, 'atlas-sword.crt' ) ),
-    key: fs.readFileSync( path.resolve( configPath, 'atlas-sword.key' ) )
+    cert: fs.readFileSync( sslCertPath ),
+    key: fs.readFileSync( sslKeyPath )
 };
 const server = https.createServer( options, app );
 
