@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="calypso.sword" overwriteAll="false" deleteMissingItems="true" autoUploadExternalChanges="true">
+    <serverData>
+      <paths name="calypso.sword">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/projects/express-app-prototype" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

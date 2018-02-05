@@ -3,8 +3,10 @@
 // Module dependencies.
 const app = require( '../src/index' );
 const debug = require( 'debug' )( 'http' );
-const http = require( 'http' );
+const fs = require('fs');
+const https = require( 'https' );
 const morgan = require( 'morgan' );
+const path = require( 'path' );
 
 // Set logging to the console
 app.use( morgan( 'dev' ) );
@@ -13,8 +15,19 @@ app.use( morgan( 'dev' ) );
 const port = normalizePort( process.env[ 'PROTOTYPE_PORT' ] );
 app.set( 'port', port );
 
-// Create HTTP server.
-const server = http.createServer( app );
+// Create HTTPS server
+const sslCertPath = process.env.SSL_CERT;
+const sslPathInfo = path.parse( sslCertPath );
+const sslKeyPath = path.format( {
+    dir: sslPathInfo.dir,
+    name: sslPathInfo.name,
+    ext: '.key'
+} );
+const options = {
+    cert: fs.readFileSync( sslCertPath ),
+    key: fs.readFileSync( sslKeyPath )
+};
+const server = https.createServer( options, app );
 
 // Listen on provided port, on all network interfaces.
 server.listen( port );
