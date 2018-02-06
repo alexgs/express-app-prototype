@@ -1,10 +1,7 @@
-// TODO Re-provision VM with more RAM
-// TODO Create bucket
-
 const bucketName = 'my-awesome-bucket';
 const couchbase = require( 'couchbase' );
 const cluster = new couchbase.Cluster( 'couchbase://localhost/' );
-cluster.authenticate( 'USERNAME', 'PASSWORD' );
+cluster.authenticate( 'lambda', '6NZi6F7Bucv7' );
 const bucket = cluster.openBucket( bucketName );
 const N1qlQuery = couchbase.N1qlQuery;
 
@@ -17,10 +14,16 @@ bucket.manager()
                 bucket.get( 'user:king_arthur', function( err, result ) {
                     console.log( 'Got result: %j', result.value );
                     bucket.query(
-                        N1qlQuery.fromString( `SELECT * FROM ${bucketName} WHERE $1 in interests LIMIT 1` ),
+                        N1qlQuery.fromString( `SELECT * FROM \`${bucketName}\` WHERE $1 in interests LIMIT 1` ),
                         [ 'African Swallows' ],
                         function( err, rows ) {
-                            console.log( 'Got rows: %j', rows );
+                            if ( err ) {
+                                console.log( err );
+                                process.exit(1);
+                            } else {
+                                console.log( 'Got rows: %j', rows );
+                                process.exit(0);
+                            }
                         } );
                 } );
             } );
