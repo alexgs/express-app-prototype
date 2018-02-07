@@ -1,11 +1,13 @@
+// @flow
+
 import couchbase from 'couchbase';
 import express from 'express';
 const router = express.Router();
 
-const bucketName = process.env.COUCHBASE_BUCKET;
-const host = process.env.COUCHBASE_HOST;
-const password = process.env.COUCHBASE_PASSWORD;
-const username = process.env.COUCHBASE_USERNAME;
+const bucketName = String( process.env.COUCHBASE_BUCKET );
+const host = String( process.env.COUCHBASE_HOST );
+const password = String( process.env.COUCHBASE_PASSWORD );
+const username = String( process.env.COUCHBASE_USERNAME );
 
 const cluster = new couchbase.Cluster( `couchbase://${host}/` );
 cluster.authenticate( username, password );

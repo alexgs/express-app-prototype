@@ -1,6 +1,6 @@
 {
   "name": "express-app-prototype",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A prototype for building Express apps",
   "main": "src/index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "test": "spawn mocha",
     "build": "babel src -d dist",
     "couchbase:start": "docker start db",
-    "couchbase:stop": "docker stop db"
+    "couchbase:stop": "docker stop db",
+    "flow": "flow"
   },
   "babel": {
     "presets": [
@@ -20,6 +21,7 @@
           }
         }
       ],
+      "flow",
       "stage-3"
     ],
     "plugins": [
@@ -58,11 +60,13 @@
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.24.1",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
+    "flow-bin": "^0.65.0",
     "lodash": "^4.17.5",
     "mocha": "^5.0.0",
     "nodemon": "^1.14.12",
