@@ -7,7 +7,8 @@ import resolvers from './resolvers';
 
 const RootQuery = `
     type RootQuery {
-        brewery(id:String!): Brewery
+        brewery(id:String!): Brewery,
+        breweries: [Brewery]
     }
 `;
 
