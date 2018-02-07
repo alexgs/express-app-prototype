@@ -1,14 +1,8 @@
 import { makeExecutableSchema } from 'graphql-tools';
-import { RootQuery, schemas } from './schemas';
+import { Query, schemas } from './schemas';
 import resolvers from './resolvers';
 
-const SchemaDefinition = `
-  schema {
-    query: RootQuery
-  }
-`;
-
-export default makeExecutableSchema({
-    typeDefs: [ SchemaDefinition, RootQuery, ...schemas ],
+export default makeExecutableSchema( {
+    typeDefs: [ Query, ...schemas ],
     resolvers
-});
+} );

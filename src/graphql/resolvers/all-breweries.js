@@ -2,9 +2,9 @@
 
 import { bucket, N1qlQuery } from '../../data-sources/couchbase';
 
-// query ManyBreweries { breweries { id name city country } }
+// query AllBreweries { allBreweries { id name city country } }
 
-function breweriesResolver( obj ) {
+function allBreweriesResolver( obj ) {
     return new Promise( ( resolve, reject ) => {
         const queryString = `
                     SELECT
@@ -29,8 +29,7 @@ function breweriesResolver( obj ) {
                 resolve( rows );
             }
         } );
-
     } );
 }
 
-export default breweriesResolver;
+export default allBreweriesResolver;

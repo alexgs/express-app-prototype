@@ -1,12 +1,20 @@
 // @flow
 
-import brewery from './brewery';
-import breweries from './breweries';
+import allBreweries from './all-breweries';
+import beer, { beersByBrewery } from './beer';
+import brewery, { breweryById } from './brewery';
 
 const resolvers = {
-    RootQuery: {
+    Query: {
+        allBreweries,
         brewery,
-        breweries
+        beer
+    },
+    Beer: {
+        brewery: beer => breweryById( beer.brewery_id )
+    },
+    Brewery: {
+        beers: brewery => beersByBrewery( brewery.id )
     }
 };
 
