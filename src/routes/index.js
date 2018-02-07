@@ -1,13 +1,9 @@
+import graphql from './graphql';
+import restApi from './rest-api';
 import root from './root';
-// import system from './system';
 
-const routes = {
-    root
-    // , system
-};
-
-export default routes;
 export {
-    root
-    // , system
+    restApi as api,
+    root,
+    graphql
 };

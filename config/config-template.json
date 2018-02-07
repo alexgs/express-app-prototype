@@ -1,5 +1,9 @@
 {
     "data": {
+        "COUCHBASE_BUCKET": "",
+        "COUCHBASE_HOST": "One or more hosts in the Couchbase cluster (comma delimited)",
+        "COUCHBASE_PASSWORD": "",
+        "COUCHBASE_USERNAME": "",
         "DEBUG": "Value for the `DEBUG` environment variable; see https://www.npmjs.com/package/debug",
         "NODE_ENV": "",
         "PROTOTYPE_PORT": 8080,
