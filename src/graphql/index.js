@@ -1,6 +1,6 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import { RootQuery, schemas } from './schemas';
-import resolvers from './resolvers/resolvers';
+import resolvers from './resolvers';
 
 const SchemaDefinition = `
   schema {
