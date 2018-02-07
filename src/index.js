@@ -26,7 +26,8 @@ app.use( cookieParser() );
 app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 
 app.use( '/', routes.root );
-// app.use( '/system', routes.system );
+app.use( '/api', routes.api );
+app.use( '/graphql', routes.graphql );
 
 // Catch 404 and forward to error handler
 app.use( function( req, res, next ) {
