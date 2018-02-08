@@ -1,15 +1,15 @@
 // @flow
-
 import _ from 'lodash';
+import type { BreweryDef } from '../schemas/brewery';
 import bucket from '../../data-sources/couchbase';
 
 // query OneBrewery { brewery(id: "512_brewing_company") { name city country } }
 
-export default function breweryResolver( obj, args ) {
+function breweryResolver( obj:any, args:{ id:string } ) {
     return breweryById( args[ 'id' ] );
 }
 
-function breweryById( breweryId ) {
+function breweryById( breweryId:string ):Promise<BreweryDef> {
     return new Promise( ( resolve, reject ) => {
         bucket.get( breweryId, ( error, result, meta ) => {
             if ( error ) {
@@ -19,8 +19,8 @@ function breweryById( breweryId ) {
                 resolve( breweryData );
             }
         } );
-    } )
-
+    } );
 }
 
+export default breweryResolver;
 export { breweryById };

@@ -1,11 +1,11 @@
 // @flow
-
 import _ from 'lodash';
+import type { BeerDef } from '../schemas/beer';
 import { bucket, N1qlQuery } from '../../data-sources/couchbase';
 
 // query OneBeer { beer( id: "512_brewing_company-512_pecan_porter" ) }
 
-export default function beerResolver( obj, args ) {
+export default function beerResolver( obj:any, args:{ id:string } ):Promise<BeerDef> {
     return new Promise( ( resolve, reject ) => {
         bucket.get( args[ 'id' ], ( error, result, meta ) => {
             if ( error ) {
@@ -15,11 +15,10 @@ export default function beerResolver( obj, args ) {
                 resolve( beerData );
             }
         } );
-    } )
-
+    } );
 }
 
-function beersByBrewery( breweryId ) {
+function beersByBrewery( breweryId:string ):Promise<Array<BeerDef>> {
     return new Promise( ( resolve, reject ) => {
         const queryString = `
             SELECT

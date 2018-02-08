@@ -1,10 +1,10 @@
 // @flow
-
+import type { BreweryDef } from '../schemas/brewery';
 import { bucket, N1qlQuery } from '../../data-sources/couchbase';
 
 // query AllBreweries { allBreweries { id name city country } }
 
-function allBreweriesResolver( obj ) {
+function allBreweriesResolver():Promise<Array<BreweryDef>> {
     return new Promise( ( resolve, reject ) => {
         const queryString = `
                     SELECT

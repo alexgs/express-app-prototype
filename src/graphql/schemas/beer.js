@@ -1,4 +1,6 @@
+// @flow
 import Brewery from './brewery';
+import type { BreweryDef } from './brewery';
 
 const Beer = `
     type Beer {
@@ -18,3 +20,17 @@ const Beer = `
 `;
 
 export default () => [ Beer, Brewery ];
+export type BeerDef = {
+    abv:number,
+    brewery:BreweryDef,
+    brewery_id:string,
+    category:string,
+    description:string,
+    ibu:number,
+    id:string,
+    name:string,
+    style:string,
+    type:string,
+    upc:number,
+    updated:string
+};
