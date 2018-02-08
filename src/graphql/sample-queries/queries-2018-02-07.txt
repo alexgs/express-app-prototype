@@ -1,0 +1,42 @@
+# For use with the GraphIQl tool
+
+query AllBreweries {
+  allBreweries {
+    id
+    beers {
+      id
+    }
+    name
+    state
+    country
+  }
+}
+
+query OneBeer {
+  beer(id: "512_brewing_company-512_pecan_porter") {
+    brewery {
+      id
+      name
+    }
+    category
+    description
+    name
+    style
+    type
+  }
+}
+
+query OneBrewery {
+  brewery(id: "512_brewing_company") {
+    name
+    beers {
+      name
+      style
+      type
+    }
+    address
+    city
+    state
+    country
+  }
+}

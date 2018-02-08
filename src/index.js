@@ -28,6 +28,7 @@ app.use( '/static', express.static( path.resolve( appRoot, 'static' ) ) );
 app.use( '/', routes.root );
 app.use( '/api', routes.api );
 app.use( '/graphql', routes.graphql );
+app.use( '/graphiql', routes.graphIql );
 
 // Catch 404 and forward to error handler
 app.use( function( req, res, next ) {
