@@ -1,25 +1,13 @@
 // @flow
-import _ from 'lodash';
+import * as couchbase from '../../data-sources/couchbase';
 import type { BreweryDef } from '../schemas/brewery';
-import bucket from '../../data-sources/couchbase';
-
-// query OneBrewery { brewery(id: "512_brewing_company") { name city country } }
 
 function breweryResolver( obj:any, args:{ id:string } ) {
-    return breweryById( args[ 'id' ] );
+    return breweryById( args.id );
 }
 
 function breweryById( breweryId:string ):Promise<BreweryDef> {
-    return new Promise( ( resolve, reject ) => {
-        bucket.get( breweryId, ( error, result, meta ) => {
-            if ( error ) {
-                reject( { CouchbaseError: error } );
-            } else {
-                const breweryData = _.merge( {}, result.value, { id: breweryId } );
-                resolve( breweryData );
-            }
-        } );
-    } );
+    return couchbase.retrieveById( breweryId );
 }
 
 export default breweryResolver;

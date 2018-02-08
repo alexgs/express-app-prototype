@@ -1,50 +1,29 @@
 // @flow
-import _ from 'lodash';
+import * as couchbase from '../../data-sources/couchbase';
 import type { BeerDef } from '../schemas/beer';
-import { bucket, N1qlQuery } from '../../data-sources/couchbase';
 
-// query OneBeer { beer( id: "512_brewing_company-512_pecan_porter" ) }
-
-export default function beerResolver( obj:any, args:{ id:string } ):Promise<BeerDef> {
-    return new Promise( ( resolve, reject ) => {
-        bucket.get( args[ 'id' ], ( error, result, meta ) => {
-            if ( error ) {
-                reject( { CouchbaseError: error } );
-            } else {
-                const beerData = _.merge( {}, result.value, { id: args[ 'id' ] } );
-                resolve( beerData );
-            }
-        } );
-    } );
+function beerResolver( obj:any, args:{ id:string } ):Promise<BeerDef> {
+    return couchbase.retrieveById( args.id );
 }
 
 function beersByBrewery( breweryId:string ):Promise<Array<BeerDef>> {
-    return new Promise( ( resolve, reject ) => {
-        const queryString = `
-            SELECT
-                abv,
-                category,
-                description,
-                ibu,
-                META().id, 
-                name, 
-                style,
-                type,
-                upc,
-                updated
-            FROM \`beer-sample\`
-            WHERE type = "beer" AND brewery_id = $1    
-        `;
-        const query = N1qlQuery.fromString( queryString );
-        bucket.query( query, [ breweryId ], ( error, rows, meta ) => {
-            if ( error ) {
-                // console.log( `>>> ${error} <<<` );
-                reject( `>>> Couchbase: ${error.message} <<<` );
-            } else {
-                resolve( rows );
-            }
-        } );
-    } );
+    const queryString = `
+        SELECT
+            abv,
+            category,
+            description,
+            ibu,
+            META().id, 
+            name, 
+            style,
+            type,
+            upc,
+            updated
+        FROM \`beer-sample\`
+        WHERE type = "beer" AND brewery_id = $1    
+    `;
+    return couchbase.retrieveByQuery( queryString, [breweryId ] );
 }
 
+export default beerResolver;
 export { beersByBrewery };
