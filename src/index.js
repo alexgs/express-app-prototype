@@ -6,6 +6,9 @@ const path = require( 'path' );
 
 const routes = require( './routes' );
 
+// TODO Add automated tests using Couchbase's mocking utilities
+// TODO Refactor to use proper dependency rejection
+
 const app = express();
 const appRoot = path.resolve( __dirname, '..' );
 
